@@ -32,23 +32,23 @@ export function Hero() {
         className="absolute inset-0 -z-10"
         aria-hidden
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.10_0.04_285)] via-[oklch(0.07_0.05_295)] to-[oklch(0.05_0.02_285)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[oklch(0.10_0.04_285_/_0.6)] via-[oklch(0.07_0.05_295_/_0.4)] to-transparent" />
         <div
-          className="absolute -top-1/4 -left-1/4 w-[80vw] h-[80vw] rounded-full opacity-40 blur-[120px]"
+          className="absolute -top-1/4 -left-1/4 w-[80vw] h-[80vw] rounded-full opacity-20 blur-[120px]"
           style={{
             background:
               "radial-gradient(circle, oklch(0.78 0.13 75 / 0.35), transparent 60%)",
           }}
         />
         <div
-          className="absolute top-1/4 -right-1/4 w-[70vw] h-[70vw] rounded-full opacity-50 blur-[120px]"
+          className="absolute top-1/4 -right-1/4 w-[70vw] h-[70vw] rounded-full opacity-25 blur-[120px]"
           style={{
             background:
               "radial-gradient(circle, oklch(0.55 0.16 295 / 0.45), transparent 60%)",
           }}
         />
         <div
-          className="absolute -bottom-1/4 left-1/4 w-[60vw] h-[60vw] rounded-full opacity-40 blur-[120px]"
+          className="absolute -bottom-1/4 left-1/4 w-[60vw] h-[60vw] rounded-full opacity-20 blur-[120px]"
           style={{
             background:
               "radial-gradient(circle, oklch(0.62 0.14 230 / 0.35), transparent 60%)",

@@ -344,3 +344,85 @@
 .aspect-film {
   aspect-ratio: 2.39 / 1;
 }
+
+/* ============================================
+   CinematicBackground — CSS overlay layers
+   Driven by CSS vars written on :root:
+     --bg-r / --bg-g / --bg-b  (current phase color, 0-255)
+     --phase    (0..3)
+     --digital  (0..1, ramps during phases 2-3)
+     --glitch   (0..1, ramps during phase 3)
+   All overlays use opacity-only animation (no mix-blend-mode)
+   so they stay on the GPU compositor and never trigger repaints.
+   ============================================ */
+
+/* Phase-tinted radial glow — subtle, always on */
+.cb-glow {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    rgba(var(--bg-r, 222), var(--bg-g, 176), var(--bg-b, 110), 0.1),
+    transparent 70%
+  );
+}
+
+/* Scanlines — repeating horizontal lines, fade in with --digital.
+   No blend mode = stays on compositor. */
+.cb-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.55) 0px,
+    rgba(0, 0, 0, 0.55) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: calc(var(--digital, 0) * 0.4);
+}
+
+/* Glitch layer — tinted gradient, transform-only animation.
+   No clip-path = 100% GPU-composited, zero repaints. */
+.cb-glitch {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--bg-r, 158), var(--bg-g, 128), var(--bg-b, 214), 0.18) 30%,
+    rgba(var(--bg-r, 158), var(--bg-g, 128), var(--bg-b, 214), 0.28) 50%,
+    rgba(var(--bg-r, 158), var(--bg-g, 128), var(--bg-b, 214), 0.18) 70%,
+    transparent 100%
+  );
+  opacity: var(--glitch, 0);
+  animation: cb-glitch-jitter 1.4s steps(1) infinite;
+  will-change: transform, opacity;
+}
+.cb-glitch--alt {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(120, 200, 255, 0.14) 45%,
+    rgba(255, 120, 200, 0.14) 55%,
+    transparent 100%
+  );
+  opacity: var(--glitch, 0);
+  animation: cb-glitch-jitter 0.9s steps(1) infinite reverse;
+  will-change: transform, opacity;
+}
+
+@keyframes cb-glitch-jitter {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleY(1);
+  }
+  10% {
+    transform: translate(-6px, -2px) scaleY(0.96);
+  }
+  20% {
+    transform: translate(5px, 1px) scaleY(1.04);
+  }
+  30% {
+    transform: translate(-3px, 2px) scaleY(0.98);
+  }
+  40%,
+  85% {
+    transform: translate(0, 0) scaleY(1);
+  }
+}
+

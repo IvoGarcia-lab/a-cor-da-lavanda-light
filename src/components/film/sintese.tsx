@@ -25,7 +25,7 @@ export function Sintese() {
         className="absolute inset-0 -z-10"
         aria-hidden
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-[oklch(0.08_0.04_295)] to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[oklch(0.08_0.04_295_/_0.5)] to-transparent" />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] rounded-full opacity-50 blur-[140px]"
           style={{

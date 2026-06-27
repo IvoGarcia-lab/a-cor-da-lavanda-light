@@ -50,3 +50,41 @@ Stage Summary:
 - Dev server running on port 3000, page verified end-to-end with Agent Browser + VLM
 - Total page height: 17751px — a deep, scroll-driven cinematic experience
 - Tech stack: Next.js 16 + TypeScript + Tailwind CSS 4 + shadcn/ui + framer-motion + Cormorant Garamond
+
+---
+Task ID: 2
+Agent: Z.ai Code (main orchestrator)
+Task: Make the background reflect the film's concept — start with warm analog colors and soft slow particles, transition to digital blue/glitch/high-tech according to the 4 phases as the user scrolls.
+
+Work Log:
+- Created `src/components/film/cinematic-background.tsx` — a fixed full-screen `<canvas>` driven by `requestAnimationFrame`
+- Phase palette (interpolated continuously): memory=amber(216,168,104) → shadow=violet(108,78,124) → digital=blue(82,134,196) → abyss=electric-violet(148,116,206)
+- Particle system (95 particles, pre-rendered radial-gradient sprite for performance, regenerated only when color shifts >6 units)
+  - Phase 1 (memory): slow upward drift + sine wobble, soft glow, warm amber
+  - Phase 2 (shadow): darker violet, heavier, slower
+  - Phase 3 (digital): 2.6× speed multiplier, occasional horizontal jitter jumps, blue
+  - Phase 4 (abyss): RGB-split ghost draws, vertical flicker jumps, electric violet
+- Scroll-driven phase detection: reads offsetTop of #fase-1..#fase-4 anchors, computes continuous 0–3 phase value, smoothed via lerp (0.045/frame)
+- Overlay effects layered on the canvas:
+  - Scanlines (digital+): horizontal 1px lines every 3px, alpha ramps with digital factor
+  - Horizontal data flashes (digital+): random bright bars that fade in/out (spawn rate scales with digital factor)
+  - Glitch slices (abyss): `getImageData`/`putImageData` horizontal slices offset randomly, triggered in bursts every 120–700ms
+  - Vignette pulse (abyss): radial gradient pulsing at 0.002Hz
+- Performance: dpr capped at 2, visibility-change pause, prefers-reduced-motion respected (30 particles, same rendering)
+- Updated `src/app/page.tsx`: added `<CinematicBackground />` as sibling before `<main>`, removed `bg-background` from main, set main to `relative z-10`
+- Reduced hero's internal blur-gradient opacity from 0.40–0.50 to 0.20–0.25 so particles show through
+- Made Sintese section's gradient transparent (was opaque `from-background ... to-background`, now `from-transparent via-[oklch(0.08_0.04_295_/_0.5)] to-transparent`)
+- Made footer `bg-background/80 backdrop-blur-sm` so abyss particles bleed through subtly
+- Verified with Agent Browser: no hydration errors, no console errors, page loads clean
+- VLM-verified the background color progression at each phase:
+  - Hero/Fase 1: "partículas amarelas claras" (warm amber) ✓
+  - Fase 2: "tons de preto e roxo, partículas lilás" ✓
+  - Fase 3: "tons de azul e preto, ambiente digital" ✓
+  - Síntese: dark abyss with bright particles ✓
+
+Stage Summary:
+- The background now evolves continuously from warm analog dust → dark violet shadow → sterile blue digital → electric violet abyss glitch, driven by scroll position
+- Glitch effects (scanlines, data flashes, slice displacement, RGB split, vignette pulse) ramp up through phases 3–4
+- All section backgrounds made semi-transparent so the canvas shows through consistently
+- No hydration errors, no runtime errors, performant (sprite-cached rendering, ~95 particles)
+- The film's chromatic progression (dourado → sombra → azul → abismo) is now felt at the ambient background level, not just in the content

@@ -1,3 +1,4 @@
+import { CinematicBackground } from "@/components/film/cinematic-background";
 import { Hero } from "@/components/film/hero";
 import { FilmNav } from "@/components/film/nav";
 import { Manifesto } from "@/components/film/manifesto";
@@ -12,21 +13,26 @@ import { FilmFooter } from "@/components/film/footer";
 
 export default function Home() {
   return (
-    <main
-      id="top"
-      className="relative min-h-screen flex flex-col bg-background grain vignette"
-    >
-      <FilmNav />
-      <Hero />
-      <Manifesto />
-      <FourPhases />
-      <Filosofia />
-      <MapeamentoTecnico />
-      <Galeria />
-      <EvolucaoSonora />
-      <VideoSection />
-      <Sintese />
-      <FilmFooter />
-    </main>
+    <>
+      {/* Fixed cinematic canvas — evolves from warm analog dust to digital
+          glitch as the viewer scrolls through the four phases. */}
+      <CinematicBackground />
+      <main
+        id="top"
+        className="relative z-10 min-h-screen flex flex-col grain vignette"
+      >
+        <FilmNav />
+        <Hero />
+        <Manifesto />
+        <FourPhases />
+        <Filosofia />
+        <MapeamentoTecnico />
+        <Galeria />
+        <EvolucaoSonora />
+        <VideoSection />
+        <Sintese />
+        <FilmFooter />
+      </main>
+    </>
   );
 }

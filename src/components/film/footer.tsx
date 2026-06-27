@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export function FilmFooter() {
   return (
-    <footer className="relative border-t border-border/40 bg-background">
+    <footer className="relative border-t border-border/40 bg-background/80 backdrop-blur-sm">
       {/* Marquee quote */}
       <div className="border-b border-border/30 py-6 overflow-hidden">
         <div className="marquee-track">
