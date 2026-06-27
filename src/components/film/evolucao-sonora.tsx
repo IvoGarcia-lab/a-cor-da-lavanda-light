@@ -22,7 +22,9 @@ const colorMap: Record<string, { c: string; bg: string }> = {
   },
 };
 
-// Deterministic pseudo-random heights for waveform bars
+// Deterministic pseudo-random heights for waveform bars.
+// Values are rounded to 3 decimals so server-rendered style strings match
+// client numbers exactly (avoids React hydration mismatch on floats).
 function genBars(seed: number, count: number, intensity: number) {
   const bars: number[] = [];
   for (let i = 0; i < count; i++) {
@@ -32,7 +34,7 @@ function genBars(seed: number, count: number, intensity: number) {
         Math.sin(i * 1.9 + seed * 0.5) * 0.2 +
         0.5) *
       intensity;
-    bars.push(Math.max(0.1, Math.min(1, v)));
+    bars.push(Math.round(Math.max(0.1, Math.min(1, v)) * 1000) / 1000);
   }
   return bars;
 }
@@ -132,26 +134,29 @@ export function EvolucaoSonora() {
 
                   {/* Waveform */}
                   <div className="flex items-end gap-[2px] h-24 md:h-32 mb-4">
-                    {bars.map((h, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ scaleY: 0 }}
-                        whileInView={{ scaleY: h }}
-                        viewport={{ once: true }}
-                        transition={{
-                          duration: 0.6,
-                          delay: 0.3 + idx * 0.015,
-                          ease: "easeOut",
-                        }}
-                        className="flex-1 origin-bottom rounded-sm"
-                        style={{
-                          height: "100%",
-                          background: colors.c,
-                          opacity: 0.4 + h * 0.6,
-                          transform: `scaleY(${h})`,
-                        }}
-                      />
-                    ))}
+                    {bars.map((h, idx) => {
+                      // Round opacity to 3 decimals to keep SSR/CSR in sync
+                      const opacity = Math.round((0.4 + h * 0.6) * 1000) / 1000;
+                      return (
+                        <motion.div
+                          key={idx}
+                          initial={{ scaleY: 0 }}
+                          whileInView={{ scaleY: h }}
+                          viewport={{ once: true }}
+                          transition={{
+                            duration: 0.6,
+                            delay: 0.3 + idx * 0.015,
+                            ease: "easeOut",
+                          }}
+                          className="flex-1 origin-bottom rounded-sm"
+                          style={{
+                            height: "100%",
+                            backgroundColor: colors.c,
+                            opacity,
+                          }}
+                        />
+                      );
+                    })}
                   </div>
 
                   <div
