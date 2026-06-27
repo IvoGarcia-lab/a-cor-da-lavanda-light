@@ -1,24 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
 
+/**
+ * FilmStill — replaces the deleted video player with a cinematic "still"
+ * section that frames the missing film as a concept: the idea that died
+ * in the glass. Uses the reference imagery as a frozen frame.
+ */
 export function VideoSection() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const toggle = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (v.paused) {
-      v.play();
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
-  };
-
   return (
     <section
       id="video"
@@ -53,8 +42,8 @@ export function VideoSection() {
             transition={{ duration: 1.1, delay: 0.1 }}
             className="lg:col-span-8 font-[family-name:var(--font-display)] font-light text-5xl md:text-7xl leading-[0.95] tracking-tight"
           >
-            Veja a ideia{" "}
-            <span className="italic text-lavender">morrer no vidro.</span>
+            A ideia que morreu{" "}
+            <span className="italic text-lavender">no vidro.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -63,11 +52,13 @@ export function VideoSection() {
             transition={{ duration: 1, delay: 0.3 }}
             className="lg:col-span-4 lg:col-start-9 self-end text-base md:text-lg text-muted-foreground leading-relaxed"
           >
-            A curta-metragem na sua forma final. 120 segundos para
-            atravessar a memória, a sombra e a anestesia.
+            Cento e vinte segundos para atravessar a memória, a sombra e a
+            anestesia. Quatro planos, um corte para negro, um silêncio
+            absoluto.
           </motion.p>
         </div>
 
+        {/* Cinematic still frame */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -76,44 +67,52 @@ export function VideoSection() {
           className="relative film-frame group"
         >
           <div className="relative aspect-film bg-black overflow-hidden">
-            <video
-              ref={videoRef}
-              src="/film/lavanda.mp4"
-              poster="/film/ref-01.jpg"
-              playsInline
-              controls={false}
-              preload="metadata"
-              onClick={toggle}
-              onEnded={() => setPlaying(false)}
-              className="absolute inset-0 w-full h-full object-cover"
+            {/* Frozen frame — the reference image as a still */}
+            <img
+              src="/film/ref-01.jpg"
+              alt="A Cor da Lavanda — still cinematográfico"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity duration-1000"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/10" />
 
-            {/* Play overlay */}
-            {!playing && (
-              <button
-                onClick={toggle}
-                className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm group-hover:bg-background/20 transition-colors duration-700"
-                aria-label="Reproduzir"
+            {/* Center caption — the absent film */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.4 }}
+                className="font-mono text-[10px] uppercase tracking-[0.4em] text-lavender/80 mb-4"
               >
-                <motion.span
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  className="relative w-20 h-20 md:w-28 md:h-28 rounded-full border-2 border-lavender flex items-center justify-center hover:scale-110 transition-transform duration-500"
-                  style={{
-                    boxShadow: "0 0 60px oklch(0.74 0.09 295 / 0.5)",
-                  }}
-                >
-                  <span className="w-0 h-0 border-y-8 border-y-transparent border-l-[14px] border-l-lavender ml-1" />
-                  <span className="absolute inset-0 rounded-full border border-lavender/40 lavender-pulse" />
-                </motion.span>
-              </button>
-            )}
+                Corte para negro · 120s
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.4, delay: 0.5 }}
+                className="font-[family-name:var(--font-display)] italic text-3xl md:text-5xl lg:text-6xl text-glow-lavender max-w-3xl"
+              >
+                A ideia...
+                <br />
+                <span className="text-lavender">morreu no vidro.</span>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.4, delay: 1 }}
+                className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+              >
+                <span className="blink mr-1 text-lavender">▌</span>
+                Silêncio absoluto.
+              </motion.div>
+            </div>
 
-            {/* Corner timecode */}
+            {/* Corner HUD */}
             <div className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-[0.3em] text-lavender/90 bg-background/40 backdrop-blur-sm px-2 py-1">
-              REC · 120s
+              STILL · 120s
             </div>
             <div className="absolute top-4 right-4 font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/70 bg-background/40 backdrop-blur-sm px-2 py-1">
               2.39:1 · a6500
@@ -122,20 +121,44 @@ export function VideoSection() {
               A Cor da Lavanda
             </div>
             <div className="absolute bottom-4 right-4 font-mono text-[10px] uppercase tracking-[0.3em] text-lavender/90 bg-background/40 backdrop-blur-sm px-2 py-1">
-              ● {playing ? "PLAY" : "PAUSE"}
+              ● REC
             </div>
           </div>
         </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground text-center"
+        {/* Phase timecode strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="mt-6 grid grid-cols-4 gap-px bg-border/30 border border-border/30"
         >
-          Clique no ecrã para reproduzir · Som recomendado
-        </motion.p>
+          {[
+            { t: "0:00 — 0:40", n: "01", c: "oklch(0.78 0.13 75)" },
+            { t: "0:40 — 1:20", n: "02", c: "oklch(0.45 0.05 285)" },
+            { t: "1:20 — 1:55", n: "03", c: "oklch(0.62 0.14 230)" },
+            { t: "1:55 — 2:00", n: "04", c: "oklch(0.55 0.16 295)" },
+          ].map((p) => (
+            <div
+              key={p.n}
+              className="bg-background/60 backdrop-blur-sm px-4 py-3 flex items-center gap-3"
+            >
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ background: p.c, boxShadow: `0 0 8px ${p.c}` }}
+              />
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Plano {p.n}
+                </div>
+                <div className="font-mono text-xs text-foreground/80">
+                  {p.t}
+                </div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
