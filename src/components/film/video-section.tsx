@@ -45,25 +45,34 @@ export function VideoSection() {
     }
   };
 
-  // Cinematic launch: fullscreen → 3s countdown → auto-play
+  // Cinematic launch: play immediately (user gesture rule) and request fullscreen
   const handleCinematicPlay = () => {
     if (!containerRef.current || !videoRef.current) return;
-    setIsCountingDown(true);
     
-    containerRef.current.requestFullscreen().then(() => {
-      setIsFullscreen(true);
-      autoplayTimerRef.current = setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.play();
-          setHasPlayedOnce(true);
-        }
-        setIsCountingDown(false);
-      }, 3000);
-    }).catch(() => {
-      // Fallback: if fullscreen fails, just play normally
-      videoRef.current?.play();
+    // Play video immediately to satisfy browser gesture policies on mobile
+    videoRef.current.play().then(() => {
+      setIsPlaying(true);
       setHasPlayedOnce(true);
-      setIsCountingDown(false);
+      
+      // Request fullscreen after successful play trigger
+      if (containerRef.current) {
+        if (containerRef.current.requestFullscreen) {
+          containerRef.current.requestFullscreen()
+            .then(() => setIsFullscreen(true))
+            .catch((err) => console.log("Fullscreen blocked:", err));
+        }
+      }
+    }).catch((err) => {
+      console.log("Play failed, retrying muted:", err);
+      // Fallback: if browser blocks audio play, play muted (always allowed by browsers)
+      if (videoRef.current) {
+        videoRef.current.muted = true;
+        setIsMuted(true);
+        videoRef.current.play().then(() => {
+          setIsPlaying(true);
+          setHasPlayedOnce(true);
+        });
+      }
     });
   };
 
@@ -247,7 +256,7 @@ export function VideoSection() {
             O seu navegador não suporta a reprodução de vídeo.
           </video>
 
-          {/* First Play Poster Overlay / Countdown Overlay */}
+          {/* First Play Poster Overlay */}
           <AnimatePresence>
             {!hasPlayedOnce && (
               <motion.div
@@ -255,43 +264,20 @@ export function VideoSection() {
                 initial={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.8 }}
-                onClick={!isCountingDown ? handleCinematicPlay : undefined}
-                className={`absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-10 text-center p-6 ${!isCountingDown ? 'cursor-pointer' : 'cursor-default'}`}
+                onClick={handleCinematicPlay}
+                className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm z-10 text-center p-6 cursor-pointer"
               >
-                {isCountingDown ? (
-                  /* Countdown state — pulsing ring while waiting 3s */
-                  <>
-                    <motion.div
-                      animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                      className="w-24 h-24 rounded-full border-2 border-lavender/60 flex items-center justify-center mb-4"
-                    >
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 3, ease: "linear" }}
-                        className="w-20 h-20 rounded-full border-t-2 border-lavender"
-                      />
-                    </motion.div>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-lavender/80">
-                      A preparar projecção...
-                    </span>
-                  </>
-                ) : (
-                  /* Default play button */
-                  <>
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-20 h-20 rounded-full border-2 border-lavender flex items-center justify-center text-lavender bg-background/50 hover:bg-lavender hover:text-background transition-all duration-300 shadow-[0_0_30px_rgba(158,128,214,0.3)] mb-4 focus:outline-none"
-                      aria-label="Reproduzir filme"
-                    >
-                      <span className="text-xl ml-1">▶</span>
-                    </motion.button>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-lavender/80">
-                      Reproduzir · 94 segundos
-                    </span>
-                  </>
-                )}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-20 h-20 rounded-full border-2 border-lavender flex items-center justify-center text-lavender bg-background/50 hover:bg-lavender hover:text-background transition-all duration-300 shadow-[0_0_30px_rgba(158,128,214,0.3)] mb-4 focus:outline-none"
+                  aria-label="Reproduzir filme"
+                >
+                  <span className="text-xl ml-1">▶</span>
+                </motion.button>
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-lavender/80">
+                  Reproduzir · 94 segundos
+                </span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -330,36 +316,38 @@ export function VideoSection() {
             {/* Multiphase progress timeline bar */}
             <div
               onClick={handleSeek}
-              className="relative w-full h-1 md:h-1.5 bg-white/10 rounded-full cursor-pointer group/bar flex overflow-hidden hover:h-2 transition-all"
+              className="relative w-full py-2 cursor-pointer group/bar flex items-center"
             >
-              {phasesInfo.map((p, idx) => {
-                const startPct = idx === 0 ? 0 : (phasesInfo[idx - 1].limit / duration) * 100;
-                const endPct = (p.limit / duration) * 100;
-                const widthPct = endPct - startPct;
-                
-                // Calculate progress inside this specific phase
-                const phaseCurrentProgress = Math.max(0, Math.min(currentTime - (idx === 0 ? 0 : phasesInfo[idx - 1].limit), p.limit - (idx === 0 ? 0 : phasesInfo[idx - 1].limit)));
-                const phaseDuration = p.limit - (idx === 0 ? 0 : phasesInfo[idx - 1].limit);
-                const playedPct = (phaseCurrentProgress / phaseDuration) * 100;
+              <div className="w-full h-1 md:h-1.5 bg-white/10 rounded-full flex overflow-hidden group-hover/bar:h-2 transition-all">
+                {phasesInfo.map((p, idx) => {
+                  const startPct = idx === 0 ? 0 : (phasesInfo[idx - 1].limit / duration) * 100;
+                  const endPct = (p.limit / duration) * 100;
+                  const widthPct = endPct - startPct;
+                  
+                  // Calculate progress inside this specific phase
+                  const phaseCurrentProgress = Math.max(0, Math.min(currentTime - (idx === 0 ? 0 : phasesInfo[idx - 1].limit), p.limit - (idx === 0 ? 0 : phasesInfo[idx - 1].limit)));
+                  const phaseDuration = p.limit - (idx === 0 ? 0 : phasesInfo[idx - 1].limit);
+                  const playedPct = (phaseCurrentProgress / phaseDuration) * 100;
 
-                return (
-                  <div
-                    key={p.id}
-                    className="h-full relative border-r border-black/20"
-                    style={{ width: `${widthPct}%` }}
-                  >
-                    {/* Fill track */}
+                  return (
                     <div
-                      className="absolute left-0 top-0 bottom-0 h-full transition-all duration-100 ease-out"
-                      style={{
-                        width: `${playedPct}%`,
-                        backgroundColor: p.color,
-                        boxShadow: `0 0 8px ${p.color}`,
-                      }}
-                    />
-                  </div>
-                );
-              })}
+                      key={p.id}
+                      className="h-full relative border-r border-black/20"
+                      style={{ width: `${widthPct}%` }}
+                    >
+                      {/* Fill track */}
+                      <div
+                        className="absolute left-0 top-0 bottom-0 h-full transition-all duration-100 ease-out"
+                        style={{
+                          width: `${playedPct}%`,
+                          backgroundColor: p.color,
+                          boxShadow: `0 0 8px ${p.color}`,
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Controls buttons row */}
@@ -424,7 +412,7 @@ export function VideoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="mt-6 grid grid-cols-4 gap-px bg-border/30 border border-border/30"
+          className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-px bg-border/30 border border-border/30"
         >
           {[
             { t: "0:00 — 0:45", n: "01", c: "oklch(0.78 0.13 75)", label: "Memória" },
