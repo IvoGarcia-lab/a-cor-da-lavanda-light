@@ -24,6 +24,13 @@ const phaseBg: Record<PhilosophyCard["color"], string> = {
   abyss: "bg-phase-abyss",
 };
 
+const authorImages: Record<PhilosophyCard["color"], string> = {
+  memory: "/film/proust.png",
+  shadow: "/film/jung.png",
+  digital: "/film/frame-6.jpg",
+  abyss: "/film/frame-7.jpg",
+};
+
 export function Filosofia() {
   return (
     <section
@@ -73,44 +80,58 @@ export function Filosofia() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 1, delay: 0.2 + i * 0.15 }}
-              className={`relative group ${phaseBg[p.color]} border border-border/40 p-8 md:p-10 hover:border-lavender/30 transition-colors duration-700`}
+              className={`relative group ${phaseBg[p.color]} border border-border/40 p-8 md:p-10 hover:border-lavender/30 overflow-hidden transition-colors duration-700`}
             >
+              {/* Dynamic Author Portrait Background */}
+              <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-[0.14] group-hover:opacity-[0.24] mix-blend-luminosity transition-all duration-[1000ms] ease-out">
+                <img
+                  src={authorImages[p.color]}
+                  alt=""
+                  className="w-full h-full object-cover object-center scale-[1.08] group-hover:scale-[1.0] transition-transform duration-[1200ms] ease-out"
+                />
+                {/* Vignettes for readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-transparent to-background/95" />
+                <div className="absolute inset-0 bg-gradient-to-r from-background/20 via-transparent to-background/20" />
+              </div>
+
               <div
-                className="absolute top-0 left-0 h-1 w-full"
+                className="absolute top-0 left-0 h-1 w-full z-10"
                 style={{
                   background: phaseBorder[p.color],
                   boxShadow: `0 0 24px ${phaseBorder[p.color]}`,
                 }}
               />
 
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
-                {p.role}
-              </div>
+              <div className="relative z-10">
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+                  {p.role}
+                </div>
 
-              <h3
-                className={`font-[family-name:var(--font-display)] italic text-3xl md:text-4xl mb-1 ${phaseText[p.color]}`}
-              >
-                {p.author}
-              </h3>
-              <div className="font-mono text-[10px] text-muted-foreground/70 mb-6">
-                {p.years}
-              </div>
+                <h3
+                  className={`font-[family-name:var(--font-display)] italic text-3xl md:text-4xl mb-1 ${phaseText[p.color]}`}
+                >
+                  {p.author}
+                </h3>
+                <div className="font-mono text-[10px] text-muted-foreground/70 mb-6">
+                  {p.years}
+                </div>
 
-              <div className="font-[family-name:var(--font-display)] text-xl md:text-2xl mb-6">
-                {p.concept}
-              </div>
+                <div className="font-[family-name:var(--font-display)] text-xl md:text-2xl mb-6">
+                  {p.concept}
+                </div>
 
-              <p className="text-sm md:text-base text-foreground/75 leading-relaxed mb-6">
-                {p.text}
-              </p>
-
-              <div
-                className="border-l-2 pl-4"
-                style={{ borderColor: phaseBorder[p.color] }}
-              >
-                <p className="font-[family-name:var(--font-display)] italic text-lg md:text-xl text-foreground/90">
-                  “{p.quote}”
+                <p className="text-sm md:text-base text-foreground/75 leading-relaxed mb-6">
+                  {p.text}
                 </p>
+
+                <div
+                  className="border-l-2 pl-4"
+                  style={{ borderColor: phaseBorder[p.color] }}
+                >
+                  <p className="font-[family-name:var(--font-display)] italic text-lg md:text-xl text-foreground/90">
+                    “{p.quote}”
+                  </p>
+                </div>
               </div>
             </motion.article>
           ))}

@@ -91,7 +91,7 @@ export function FilmFooter() {
             <ul className="space-y-2 text-sm text-foreground/80">
               <li>
                 <span className="text-muted-foreground">Câmara · </span>Sony
-                a6500
+                a6300
               </li>
               <li>
                 <span className="text-muted-foreground">Lentes · </span>

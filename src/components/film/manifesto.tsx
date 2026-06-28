@@ -1,11 +1,25 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export function Manifesto() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const yQuote = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const yCard1 = useTransform(scrollYProgress, [0, 1], [0, -15]);
+  const yCard2 = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const yCard3 = useTransform(scrollYProgress, [0, 1], [0, -45]);
+  const yCards = [yCard1, yCard2, yCard3];
+
   return (
     <section
       id="manifesto"
+      ref={ref}
       className="relative py-32 md:py-48 px-6 md:px-12 overflow-hidden"
     >
       {/* Subtle lavender backdrop */}
@@ -35,15 +49,15 @@ export function Manifesto() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, delay: 0.1 }}
-          className="font-[family-name:var(--font-display)] text-3xl md:text-5xl lg:text-6xl leading-[1.15] tracking-tight font-light"
+          className="font-[family-name:var(--font-display)] text-4xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight font-light text-foreground"
         >
-          Num banheiro banhado de azul-violeta,{" "}
-          <span className="italic text-lavender text-glow-lavender">
-            uma mão ergue um painel de cor
-          </span>{" "}
-          contra o espelho. A câmara filma a sua própria reflexão. A cor da
-          lavanda não está na parede — está{" "}
-          <span className="italic">no gesto de a tentar medir.</span>
+          <motion.span style={{ y: yQuote, display: "block" }}>
+            Num espaço <span className="font-normal italic text-lavender text-glow-lavender">tingido de azul-violeta</span>, uma mão eleva uma carta de calibração cromática perante o espelho. A câmara capta a sua <span className="font-semibold text-foreground border-b border-lavender/30">própria reflexão</span>.
+            <br className="hidden md:block" />
+            <span className="block mt-6 font-[family-name:var(--font-display)] text-2xl md:text-4xl text-muted-foreground/80 font-light">
+              A cor da lavanda não está na parede — reside <span className="italic text-foreground font-normal border-b border-white/10">no gesto preciso de a tentar medir.</span>
+            </span>
+          </motion.span>
         </motion.p>
 
         <motion.p
@@ -51,11 +65,11 @@ export function Manifesto() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, delay: 0.3 }}
-          className="mt-10 md:mt-14 font-[family-name:var(--font-display)] italic text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-3xl"
+          className="mt-12 font-sans text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl font-light tracking-wide"
         >
-          A membrória involuntária de Proust é o gatilho. A sombra de Jung é o
-          confronto. A tecnologia é a anestesia. E o vidro — o vidro é onde a
-          ideia vai morrer, aos 120 segundos, num corte para negro.
+          <motion.span style={{ y: yQuote, display: "block" }}>
+            A <strong className="font-semibold text-foreground">memória involuntária</strong> de Proust é o gatilho. A <strong className="font-semibold text-foreground">sombra</strong> de Jung é o confronto. A tecnologia é a <span className="italic text-lavender">anestesia digital</span>. E o vidro — o vidro é o limite onde a ideia se dissolve, aos 120 segundos, num corte abrupto para o silêncio.
+          </motion.span>
         </motion.p>
 
         {/* Three pillars */}
@@ -94,19 +108,21 @@ export function Manifesto() {
               transition={{ duration: 0.8, delay: 0.6 + i * 0.15 }}
               className="bg-background p-8 md:p-10 group hover:bg-card/40 transition-colors duration-500"
             >
-              <div
-                className="w-8 h-px mb-6"
-                style={{ background: p.c, boxShadow: `0 0 12px ${p.c}` }}
-              />
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-2">
-                {p.v}
-              </div>
-              <div className="font-[family-name:var(--font-display)] text-3xl md:text-4xl mb-4 italic">
-                {p.k}
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {p.d}
-              </p>
+              <motion.div style={{ y: yCards[i] }} className="h-full w-full">
+                <div
+                  className="w-8 h-px mb-6"
+                  style={{ background: p.c, boxShadow: `0 0 12px ${p.c}` }}
+                />
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-2">
+                  {p.v}
+                </div>
+                <div className="font-[family-name:var(--font-display)] text-3xl md:text-4xl mb-4 italic">
+                  {p.k}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {p.d}
+                </p>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>

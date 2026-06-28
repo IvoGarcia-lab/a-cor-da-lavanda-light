@@ -20,6 +20,10 @@ export function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const yTitle = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const yContent = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const yRibbon = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const opacityRibbon = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
 
   return (
     <section
@@ -56,6 +60,35 @@ export function Hero() {
         />
       </motion.div>
 
+      {/* Viewfinder crosshairs & guideline grid overlay */}
+      <div className="absolute inset-0 pointer-events-none z-10 opacity-20">
+        {/* Viewfinder Corners */}
+        <div className="absolute top-24 left-8 w-6 h-6 border-t border-l border-foreground/60" />
+        <div className="absolute top-24 right-8 w-6 h-6 border-t border-r border-foreground/60" />
+        <div className="absolute bottom-24 left-8 w-6 h-6 border-b border-l border-foreground/60" />
+        <div className="absolute bottom-24 right-8 w-6 h-6 border-b border-r border-foreground/60" />
+
+        {/* Center Crosshair */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
+          <div className="w-4 h-px bg-foreground/60" />
+          <div className="h-4 w-px bg-foreground/60 absolute" />
+        </div>
+
+        {/* Grid Guidelines */}
+        <div className="absolute top-0 bottom-0 left-1/3 w-px bg-foreground/[0.03]" />
+        <div className="absolute top-0 bottom-0 right-1/3 w-px bg-foreground/[0.03]" />
+        <div className="absolute left-0 right-0 top-1/3 h-px bg-foreground/[0.03]" />
+        <div className="absolute left-0 right-0 bottom-1/3 h-px bg-foreground/[0.03]" />
+
+        {/* Tech data readouts */}
+        <div className="absolute bottom-24 left-8 font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80 hidden xl:block">
+          ISO 400 · f/2.8 · 1/50s · 80mm · 24fps
+        </div>
+        <div className="absolute bottom-24 right-8 font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80 hidden xl:block">
+          BAT 98% · CH1 -12dB · CH2 -12dB
+        </div>
+      </div>
+
       {/* Scan line */}
       <div className="scan-line" aria-hidden />
 
@@ -64,7 +97,7 @@ export function Hero() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.4 }}
-        className="absolute top-0 inset-x-0 z-30 px-6 md:px-12 py-6 flex items-center justify-between"
+        className="absolute top-0 inset-x-0 z-30 px-6 md:px-12 pt-24 pb-6 flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-lavender lavender-pulse" />
@@ -82,101 +115,106 @@ export function Hero() {
         style={{ opacity }}
         className="relative z-20 px-6 md:px-12 max-w-7xl mx-auto w-full"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.4, delay: 0.2 }}
-          className="font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-lavender/80 mb-6 md:mb-10"
-        >
-          Entre a memória de Proust e a sombra de Jung
+        <motion.div style={{ y: yTitle }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, delay: 0.2 }}
+            className="font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-lavender/80 mb-6 md:mb-10"
+          >
+            Entre a memória de Proust e a sombra de Jung
+          </motion.div>
+
+          <h1 className="font-[family-name:var(--font-display)] font-light leading-[0.92] tracking-tight">
+            <motion.span
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, delay: 0.5 }}
+              className="block text-[18vw] md:text-[12vw] lg:text-[10rem] text-glow-lavender"
+            >
+              A Cor da
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, delay: 0.7 }}
+              className="block text-[18vw] md:text-[12vw] lg:text-[10rem] italic text-glow-lavender"
+              style={{
+                background:
+                  "linear-gradient(90deg, oklch(0.78 0.13 75), oklch(0.55 0.16 295) 50%, oklch(0.62 0.14 230))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Lavanda
+            </motion.span>
+          </h1>
         </motion.div>
 
-        <h1 className="font-[family-name:var(--font-display)] font-light leading-[0.92] tracking-tight">
-          <motion.span
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, delay: 0.5 }}
-            className="block text-[18vw] md:text-[12vw] lg:text-[10rem] text-glow-lavender"
+        <motion.div style={{ y: yContent }} className="mt-8 md:mt-12">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 1.1 }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-end"
           >
-            A Cor da
-          </motion.span>
-          <motion.span
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, delay: 0.7 }}
-            className="block text-[18vw] md:text-[12vw] lg:text-[10rem] italic text-glow-lavender"
-            style={{
-              background:
-                "linear-gradient(90deg, oklch(0.78 0.13 75), oklch(0.55 0.16 295) 50%, oklch(0.62 0.14 230))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Lavanda
-          </motion.span>
-        </h1>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.4, delay: 1.1 }}
-          className="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-end"
-        >
-          <p className="md:col-span-7 font-[family-name:var(--font-display)] italic text-xl md:text-2xl lg:text-3xl leading-relaxed text-foreground/85 max-w-2xl">
-            Uma anatomia cinematográfica de 120 segundos. Quatro fases. Uma
-            ideia que se dissolve no reflexo de um ecrã.
-          </p>
-          <div className="md:col-span-5 md:col-start-9 space-y-2">
-            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              A ideia...
+            <p className="md:col-span-7 font-[family-name:var(--font-display)] italic text-xl md:text-2xl lg:text-3xl leading-relaxed text-foreground/85 max-w-2xl">
+              Uma anatomia cinematográfica de 120 segundos. Quatro fases. Uma
+              ideia que se dissolve no reflexo de um ecrã.
+            </p>
+            <div className="md:col-span-5 md:col-start-9 space-y-2">
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                A ideia...
+              </div>
+              <div className="font-[family-name:var(--font-display)] italic text-2xl md:text-3xl text-lavender text-glow-lavender">
+                morreu no vidro.
+                <span className="blink ml-1 text-lavender">|</span>
+              </div>
             </div>
-            <div className="font-[family-name:var(--font-display)] italic text-2xl md:text-3xl text-lavender text-glow-lavender">
-              morreu no vidro.
-              <span className="blink ml-1 text-lavender">|</span>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 1.4 }}
-          className="mt-12 md:mt-16 flex flex-col sm:flex-row items-start sm:items-center gap-4"
-        >
-          <a
-            href="#manifesto"
-            className="group relative inline-flex items-center gap-3 px-6 py-3 border border-lavender/40 hover:border-lavender transition-all duration-500 overflow-hidden"
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 1.4 }}
+            className="mt-12 md:mt-16 flex flex-col sm:flex-row items-start sm:items-center gap-4"
           >
-            <span className="absolute inset-0 bg-lavender/0 group-hover:bg-lavender/10 transition-colors duration-500" />
-            <span className="font-mono text-xs uppercase tracking-[0.3em] relative z-10">
-              Descer ao abismo
-            </span>
-            <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-1">
-              ↓
-            </span>
-          </a>
-          <a
-            href="#video"
-            className="group inline-flex items-center gap-3 px-2 py-3 text-muted-foreground hover:text-lavender transition-colors duration-500"
-          >
-            <span className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              ▶
-            </span>
-            <span className="font-mono text-xs uppercase tracking-[0.3em]">
-              Ver o filme
-            </span>
-          </a>
+            <a
+              href="#manifesto"
+              className="group relative inline-flex items-center gap-3 px-6 py-3 border border-lavender/40 hover:border-lavender transition-all duration-500 overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-lavender/0 group-hover:bg-lavender/10 transition-colors duration-500" />
+              <span className="font-mono text-xs uppercase tracking-[0.3em] relative z-10">
+                Descer ao abismo
+              </span>
+              <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-1">
+                ↓
+              </span>
+            </a>
+            <a
+              href="#video"
+              className="group inline-flex items-center gap-3 px-2 py-3 text-muted-foreground hover:text-lavender transition-colors duration-500"
+            >
+              <span className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                ▶
+              </span>
+              <span className="font-mono text-xs uppercase tracking-[0.3em]">
+                Ver o filme
+              </span>
+            </a>
+          </motion.div>
         </motion.div>
       </motion.div>
 
       {/* Phase timeline ribbon at bottom */}
       <motion.div
+        style={{ y: yRibbon, opacity: opacityRibbon }}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 1.6 }}
-        className="absolute bottom-0 inset-x-0 z-20 px-6 md:px-12 pb-6 md:pb-8"
+        className="absolute bottom-0 inset-x-0 z-20 px-6 md:px-12 pb-6 md:pb-8 pointer-events-auto"
       >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-4 gap-2 md:gap-4">

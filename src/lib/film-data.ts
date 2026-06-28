@@ -1,5 +1,6 @@
 // Data extracted from the deep VLM analysis of the 5 conceptual maps
-// Film: "A Cor da Lavanda" — Anatomia Cinematográfica de 120 Segundos
+// Film: "A Cor da Lavanda" — Anatomia Cinematográfica de 94 Segundos
+// Technical and conceptual data for A Cor da Lavanda short film.
 
 export type Phase = {
   id: number;
@@ -28,8 +29,8 @@ export const PHASES: Phase[] = [
   {
     id: 1,
     index: "01",
-    timecode: "0:00 — 0:40",
-    duration: "40s",
+    timecode: "0:00 — 0:45",
+    duration: "45s",
     name: "O Despertar Analógico",
     subtitle: "O Amanhecer da Memória",
     theme: "Memória · Tempo · Organicidade",
@@ -37,7 +38,7 @@ export const PHASES: Phase[] = [
     hex: "#d4a574",
     temperature: "2000K — 3200K · Poente",
     lens: "Anamórfica 80mm",
-    camera: "Sony a6500 · Tripé",
+    camera: "Sony a6300 · Tripé",
     light: "Luz natural quente e dourada (Golden Hour)",
     sound: "Silêncio orgânico · Ambiente sutil",
     voice: "Voz pausada — 20s — verdade analógica",
@@ -51,8 +52,8 @@ export const PHASES: Phase[] = [
   {
     id: 2,
     index: "02",
-    timecode: "0:40 — 1:20",
-    duration: "40s",
+    timecode: "0:46 — 1:15",
+    duration: "30s",
     name: "O Confronto com a Sombra",
     subtitle: "O Crepúsculo do Ego",
     theme: "Sombra · Vazio · Isolamento",
@@ -60,7 +61,7 @@ export const PHASES: Phase[] = [
     hex: "#5a4a6b",
     temperature: "3200K — 4500K · Crepúsculo",
     lens: "Anamórfica 80mm · Gimbal",
-    camera: "Sony a6500 · Pullback dinâmico",
+    camera: "Sony a6300 · Pullback dinâmico",
     light: "Penumbra azulada — luz natural morre",
     sound: "Zumbido grave em crescendo — tensão",
     voice: "Voz de sombra — 18s — inexorável e pesada",
@@ -74,8 +75,8 @@ export const PHASES: Phase[] = [
   {
     id: 3,
     index: "03",
-    timecode: "1:20 — 1:55",
-    duration: "35s",
+    timecode: "1:16 — 1:22",
+    duration: "7s",
     name: "A Anestesia Digital",
     subtitle: "A Capitulação do Ego",
     theme: "Digitalização · Anestesia · Fuga",
@@ -83,7 +84,7 @@ export const PHASES: Phase[] = [
     hex: "#4a7c9a",
     temperature: "6500K · LED estéril",
     lens: "Sigma 16mm · Mini Softbox",
-    camera: "Sony a6500 · Plano médio de perfil",
+    camera: "Sony a6300 · Plano médio de perfil",
     light: "Luz artificial fria — alto contraste",
     sound: "Choque · Ruído digital invasivo",
     voice: "Voz fria e anestesiada — 8s",
@@ -97,8 +98,8 @@ export const PHASES: Phase[] = [
   {
     id: 4,
     index: "04",
-    timecode: "1:55 — 2:00",
-    duration: "5s",
+    timecode: "1:23 — 1:34",
+    duration: "12s",
     name: "O Abismo do Vidro",
     subtitle: "O Desfecho Fragmentado",
     theme: "Reflexo · Desconexão · Silêncio",
@@ -106,7 +107,7 @@ export const PHASES: Phase[] = [
     hex: "#6b5b8e",
     temperature: "6500K absoluto",
     lens: "Sigma 16mm · Macro grande plano",
-    camera: "Sony a6500 · Extremo close-up do olho",
+    camera: "Sony a6300 · Extremo close-up do olho",
     light: "Reflexo do feed em loop na íris",
     sound: "Frequência digital frenética — corte abrupto para negro",
     voice: "Sussurro final — 3s — antes do silêncio total",
@@ -115,7 +116,7 @@ export const PHASES: Phase[] = [
     symbol: "Olho em loop · Feed · Vidro fragmentado",
     movement: "Estático — então corte para negro",
     description:
-      "Grande plano extremo da íris, refletindo o movimento frenético e cocofânico das redes sociais em loop. Aos 120 segundos, luz e som cessam instantaneamente. A integração falhou: a memória não se reconciliou com a sombra, e a ideia morreu no vidro. O caminho da individuação exige o silêncio absoluto que o digital recusa.",
+      "Grande plano extremo da íris, refletindo o movimento frenético e cocofânico das redes sociais em loop. Aos 94 segundos, luz e som cessam instantaneamente. A integração falhou: a memória não se reconciliou com a sombra, e a idea morreu no vidro. O caminho da individuação exige o silêncio absoluto que o digital recusa.",
   },
 ];
 
@@ -140,22 +141,22 @@ export const PHILOSOPHY: PhilosophyCard[] = [
     color: "memory",
   },
   {
-    author: "Carl G. Jung",
+    author: "Carl Jung",
     years: "1875 — 1961",
-    concept: "A Sombra como Arquétipo",
-    role: "Fase 2 · O confronto",
-    text: "A sombra é tudo aquilo que o indivíduo rejeita — mesmo sem reconhecer. Os traços reprimidos projetam-se no outro, no digital, no social. A vida exige a tensão entre consciência e inconsciente; sem ela, não há individuação. O confronto com a própria sombra é aterrorizador, mas inevitável.",
-    quote: "Aquilo que não desejamos ser.",
+    concept: "Confronto com a Sombra",
+    role: "Fase 2 · A descida psicológica",
+    text: "A sombra representa o lado obscuro e reprimido da nossa personalidade, mas é também a porta de entrada para a totalidade do si-mesmo. Ninguém se torna iluminado imaginando figuras de luz, mas sim tornando a escuridão consciente. O confronto com o inconsciente é o primeiro passo da individuação.",
+    quote: "O confronto com a própria sombra é aterrorizador.",
     color: "shadow",
   },
   {
-    author: "A Anestesia Digital",
-    years: "século XXI",
-    concept: "A Sombra no Vidro",
-    role: "Fases 3 · 4 · O antagonista",
-    text: "A tecnologia não é inimiga da memória — é a sua anestesia. Em vez de descer ao abismo da sombra, o ego sobe ao ruído infinito de um ecrã. O brilho frio do smartphone cria uma sombra subtil que isola e neurotiza. A cocofania das redes substitui o silêncio exigido pela individuação.",
+    author: "Anestesia Digital",
+    years: "Século XXI",
+    concept: "O Escudo do Vidro",
+    role: "Fases 3 & 4 · A capitulação da alma",
+    text: "O ecrã tátil (o vidro) serve como uma barreira que anestesia o sofrimento existencial e suspende o confronto com o abismo interior. O indivíduo prefere refugiar-se na distração constante, no feed contínuo e na iluminação estéril de 6500K a encarar a sua própria sombra, resultando no colapso e na morte da ideia.",
     quote: "Substituímos o abismo pelo ruído.",
-    color: "digital",
+    color: "abyss",
   },
 ];
 
@@ -170,59 +171,59 @@ export type TechSpec = {
 export const TECH_SPECS: TechSpec[] = [
   {
     label: "Câmara",
-    phase1: "Sony a6500",
-    phase2: "Sony a6500",
-    phase3: "Sony a6500",
-    phase4: "Sony a6500",
+    phase1: "Sony a6300 · Tripé",
+    phase2: "Sony a6300 · Gimbal",
+    phase3: "Sony a6300 · Plano Médio",
+    phase4: "Sony a6300 · Extremo Close-up",
   },
   {
     label: "Lente",
     phase1: "Anamórfica 80mm",
     phase2: "Anamórfica 80mm",
-    phase3: "Sigma 16mm + Softbox",
-    phase4: "Sigma 16mm · Macro",
+    phase3: "Sigma 16mm (Grande angular)",
+    phase4: "Sigma 16mm + Lente Macro",
   },
   {
-    label: "Temperatura de cor",
-    phase1: "2000K — 3200K",
-    phase2: "3200K — 4500K",
-    phase3: "6500K",
-    phase4: "6500K absoluto",
+    label: "Temperatura",
+    phase1: "2000K — 3200K (Quente)",
+    phase2: "3200K — 4500K (Fria/Neutro)",
+    phase3: "6500K (Branco Frio)",
+    phase4: "6500K Absoluto (Azulado)",
   },
   {
     label: "Iluminação",
-    phase1: "Poente · Natural",
-    phase2: "Crepúsculo · Transição",
-    phase3: "LED estéril · Alto contraste",
-    phase4: "Reflexo do feed",
+    phase1: "Luz Natural (Golden Hour)",
+    phase2: "Penumbra (Luz natural morre)",
+    phase3: "Luz Artificial Fria (LED/Ecrã)",
+    phase4: "Brilho do Feed na Córnea",
   },
   {
     label: "Movimento",
-    phase1: "Tripé · Estático",
-    phase2: "Gimbal · Pullback",
-    phase3: "Plano médio de perfil",
-    phase4: "Extremo close-up",
+    phase1: "Estático · Contemplativo",
+    phase2: "Pullback Lento · Recuo",
+    phase3: "Aceleração · Cortes rápidos",
+    phase4: "Estático · Flash/Corte Negro",
   },
   {
     label: "Som",
-    phase1: "Silêncio orgânico",
-    phase2: "Zumbido grave",
-    phase3: "Ruído digital",
-    phase4: "Frequência frenética",
+    phase1: "Silêncio Orgânico · Sons da duna",
+    phase2: "Hum / Drone grave em crescendo",
+    phase3: "Ruído Digital · Glitch · Choques",
+    phase4: "Cofonia frenética → Silêncio",
   },
   {
-    label: "Voz",
-    phase1: "20s · Pausada",
-    phase2: "18s · Pesada",
-    phase3: "8s · Anestesiada",
-    phase4: "3s · Sussurro",
+    label: "Voz Off",
+    phase1: "Orgânica · Pausada (20s)",
+    phase2: "Ecoada · Pesada (18s)",
+    phase3: "Sintetizada · Fria (8s)",
+    phase4: "Sussurro final (3s) → Silêncio",
   },
   {
-    label: "Paleta",
-    phase1: "Dourado · Âmbar",
-    phase2: "Sombra · Azul-violeta",
-    phase3: "Ciano · Estéril",
-    phase4: "Violeta · Reflexo",
+    label: "Paleta OKLCH",
+    phase1: "oklch(0.78 0.13 75) · Dourado",
+    phase2: "oklch(0.30 0.04 285) · Roxão",
+    phase3: "oklch(0.62 0.14 230) · Azul",
+    phase4: "oklch(0.45 0.16 295) · Violeta",
   },
 ];
 
@@ -269,32 +270,53 @@ export type GalleryItem = {
 
 export const GALLERY: GalleryItem[] = [
   {
-    src: "/film/ref-01.jpg",
-    title: "Calibração no Espelho",
+    src: "/film/frame-1.jpg",
+    title: "A Flor e a Memória",
     caption:
-      "O banheiro como laboratório de luz. O painel de cor mede o que a percepção recusa — a cor da lavanda é fluida, subjectiva, inapreensível.",
-    meta: "Referência visual · 01",
+      "A lavanda selvagem cresce na duna sob a luz suave do poente. É a âncora sensorial da primeira fase — a memória involuntária de Proust antes da intrusão digital.",
+    meta: "Plano 01 · 0:00 — 0:45 · Memória",
   },
   {
-    src: "/film/ref-02.jpg",
-    title: "O Estúdio Doméstico",
+    src: "/film/frame-2.jpg",
+    title: "O Despertar da Sombra",
     caption:
-      "A sala de estar tornada palco. Luz dual — azul e verde — cria o limbo entre o real e o sonhado. O buquê de flores secas guarda a memória que seca mas não desaparece.",
-    meta: "Referência visual · 02",
+      "Grande plano dos olhos fechados com maquilhagem violeta. O crepúsculo do ego, onde a perceção interna se desvia do mundo físico para encarar o inconsciente.",
+    meta: "Plano 02 · 0:46 — 1:15 · Sombra",
   },
   {
-    src: "/film/ref-03.jpg",
-    title: "O Gráfico e o Linho",
+    src: "/film/frame-3.jpg",
+    title: "O Toque Analógico",
     caption:
-      "Datacolor sobre linho bordado. A ciência tenta catalogar o que a arte evoca. A caneta pronta, o relógio a contar — o tempo não espera pela ideia.",
-    meta: "Referência visual · 03",
+      "A mão repousa sobre a mesa de linho bordado ao lado de um caderno em branco. A última ligação tátil e orgânica com o tempo e a matéria real antes da transição.",
+    meta: "Plano 03 · 0:46 — 1:15 · Transição",
   },
   {
-    src: "/film/calibracao.png",
-    title: "A Carta de Cores",
+    src: "/film/frame-4.jpg",
+    title: "A Anestesia Digital",
     caption:
-      "O rosto desaparece na luz monocromática. A paleta violeta tinge a pele, o cabelo, o ar. A cor da lavanda deixa de ser imagem — torna-se atmosfera.",
-    meta: "Teste de cor · calibração",
+      "A luz fria do ecrã do telemóvel inunda o rosto e o ambiente em tons de azul elétrico. A capitulação do ego e a fuga da sombra junguiana para o ruído do vidro.",
+    meta: "Plano 04 · 1:16 — 1:22 · Digital",
+  },
+  {
+    src: "/film/frame-5.jpg",
+    title: "O Abismo do Vidro",
+    caption:
+      "Grande plano do perfil, absorvido pelo brilho estéril do smartphone. O feed de redes sociais consome a atenção até ao corte abrupto para negro e silêncio aos 94s.",
+    meta: "Plano 05 · 1:23 — 1:34 · Abismo",
+  },
+  {
+    src: "/film/frame-6.jpg",
+    title: "A Introspeção do Vidro",
+    caption:
+      "A luz azul do ecrã esculpe o rosto na escuridão. O sujeito é capturado pelo reflexo luminoso, numa perda progressiva de contacto com o real.",
+    meta: "Plano 06 · 1:16 — 1:22 · Absorção",
+  },
+  {
+    src: "/film/frame-7.jpg",
+    title: "O Abismo na Córnea",
+    caption:
+      "Grande plano macro do olho. A imagem refletida na córnea é o próprio ecrã — a ideia que morre aprisionada no vidro aos 94 segundos.",
+    meta: "Plano 07 · 1:23 — 1:34 · Colapso",
   },
 ];
 
@@ -302,7 +324,7 @@ export const CONCEPTUAL_MAPS = [
   {
     src: "/film/linha-pensamento.png",
     title: "A Linha de Pensamento",
-    subtitle: "Anatomia Cinematográfica de 120 Segundos",
+    subtitle: "Anatomia Cinematográfica de 94 Segundos",
     description:
       "O mapa-mãe. Demonstra a relação técnica e narrativa entre diálogos, iluminação e composição visual em cada plano — do dourado da memória ao abismo do vidro.",
   },
@@ -318,28 +340,33 @@ export const CONCEPTUAL_MAPS = [
     title: "Mapeamento Técnico",
     subtitle: "Câmara · Lente · Luz · Som · Montagem",
     description:
-      "A engenharia invisível. Cada escolha técnica — da Sony a6500 ao Sigma 16mm, de 2000K a 6500K absoluto — serve a degradação narrativa de orgânico a estéril.",
+      "A engenharia invisível. Cada escolha técnica — da Sony a6300 ao Sigma 16mm, de 2000K a 6500K absoluto — serve a degradação narrativa de orgânico a estéril.",
   },
   {
     src: "/film/sintese.png",
     title: "Síntese",
     subtitle: "Mapa da Evolução Sonora e Narrativa",
     description:
-      "A partitura final. Ondas amarelas, laranja, azuis e cianas desenham a degradação: memória → tensão → anestesia → colapso. A ideia morre no vidro aos 120s.",
+      "A partitura final. Ondas amarelas, laranja, azuis e cianas desenham a degradação: memória → tension → anestesia → colapso. A ideia morre no vidro aos 94s.",
   },
 ];
 
 export const FINAL_QUOTE = {
   text: "A ideia... morreu no vidro.",
-  subtitle: "120 segundos. Corte para negro. Silêncio.",
+  subtitle: "94 segundos. Corte para negro. Silêncio.",
 };
 
 export const NAV_ITEMS = [
+  { href: "#video", label: "Filme" },
   { href: "#manifesto", label: "Manifesto" },
   { href: "#fases", label: "4 Fases" },
   { href: "#filosofia", label: "Filosofia" },
   { href: "#tecnico", label: "Técnica" },
+  { href: "#grading", label: "Gradação" },
   { href: "#galeria", label: "Galeria" },
   { href: "#som", label: "Som" },
+  { href: "#making-of", label: "Bastidores" },
+  { href: "#equipamento", label: "Equipamento" },
   { href: "#sintese", label: "Síntese" },
+  { href: "#creditos", label: "Créditos" },
 ];

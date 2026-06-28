@@ -63,11 +63,18 @@ export function CinematicBackground() {
     let lastR = -1;
     let lastG = -1;
     let lastB = -1;
+    let lastPhase = "";
+    let lastDigital = "";
+    let lastGlitch = "";
+    let lastTransitionIntensity = "";
 
     const tick = () => {
       if (!running) return;
       current += (target - current) * 0.06;
       const p = current;
+
+      // Expose current phase to window for other components to read without DOM style query
+      (window as any).__currentPhase = p;
 
       const i0 = Math.max(0, Math.min(3, Math.floor(p)));
       const i1 = Math.min(3, i0 + 1);
@@ -91,9 +98,32 @@ export function CinematicBackground() {
       }
       const digital = Math.max(0, Math.min(1, (p - 1.4) / 1.6));
       const glitch = Math.max(0, Math.min(1, (p - 2.3) / 0.7));
-      root.style.setProperty("--phase", p.toFixed(3));
-      root.style.setProperty("--digital", digital.toFixed(3));
-      root.style.setProperty("--glitch", glitch.toFixed(3));
+      
+      const frac = p % 1;
+      const intensity = frac < 0.15 || frac > 0.85 ? 1 - Math.min(frac, 1 - frac) / 0.15 : 0;
+      const transitionIntensity = p > 0.15 && p < 2.85 ? intensity : 0;
+
+      const nextPhase = p.toFixed(3);
+      const nextDigital = digital.toFixed(3);
+      const nextGlitch = glitch.toFixed(3);
+      const nextTransitionIntensity = transitionIntensity.toFixed(3);
+
+      if (nextPhase !== lastPhase) {
+        root.style.setProperty("--phase", nextPhase);
+        lastPhase = nextPhase;
+      }
+      if (nextDigital !== lastDigital) {
+        root.style.setProperty("--digital", nextDigital);
+        lastDigital = nextDigital;
+      }
+      if (nextGlitch !== lastGlitch) {
+        root.style.setProperty("--glitch", nextGlitch);
+        lastGlitch = nextGlitch;
+      }
+      if (nextTransitionIntensity !== lastTransitionIntensity) {
+        root.style.setProperty("--transition-intensity", nextTransitionIntensity);
+        lastTransitionIntensity = nextTransitionIntensity;
+      }
 
       raf = requestAnimationFrame(tick);
     };
@@ -133,6 +163,8 @@ export function CinematicBackground() {
     >
       {/* Phase-tinted radial glow */}
       <div className="absolute inset-0 cb-glow" />
+      {/* Transition flash/bloom layer */}
+      <div className="absolute inset-0 cb-transition-flash" />
       {/* CSS scanlines — fade in during digital phase */}
       <div className="absolute inset-0 cb-scanlines" />
       {/* CSS glitch slices — fade in during abyss phase */}

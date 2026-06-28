@@ -121,7 +121,6 @@
     @apply border-border outline-ring/50;
   }
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
   body {
@@ -153,19 +152,17 @@
 }
 
 /* Film grain overlay */
-.grain::before {
-  content: "";
+.film-grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.04;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Vignette */
-.vignette::after {
-  content: "";
+.film-vignette {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -266,13 +263,16 @@
 
 /* Marquee for quotes */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 .marquee-track {
   display: inline-flex;
   animation: marquee 60s linear infinite;
   white-space: nowrap;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 /* Reveal underline */
@@ -423,6 +423,98 @@
   40%,
   85% {
     transform: translate(0, 0) scaleY(1);
+  }
+}
+
+/* Transition flash/bloom layer — peaks between phases */
+.cb-transition-flash {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 70%
+  );
+  opacity: var(--transition-intensity, 0);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* Logo Neon Glitch Animation for Phase 4 (Abyss) */
+.logo-glitch-active {
+  animation: logo-neon-glitch 2s infinite;
+}
+
+@keyframes logo-neon-glitch {
+  0%, 100% {
+    text-shadow: 
+      -2px -1px 0px oklch(0.70 0.30 195), 
+      2px 1px 0px oklch(0.65 0.32 345), 
+      0 0 2px #ffffff, 
+      0 0 6px #ffffff, 
+      0 0 16px oklch(0.74 0.16 230), 
+      0 0 35px oklch(0.74 0.16 230 / 0.7);
+    transform: scale(1) skewX(0deg);
+    opacity: 1;
+  }
+  2% {
+    text-shadow: 
+      -4px -2.5px 0px oklch(0.70 0.30 195), 
+      4px 2.5px 0px oklch(0.65 0.32 345), 
+      0 0 2px #ffffff;
+    transform: scale(0.98) skewX(-4deg);
+    opacity: 0.85;
+  }
+  4% {
+    text-shadow: 
+      -1px 2px 0px oklch(0.70 0.30 195), 
+      1px -2px 0px oklch(0.65 0.32 345), 
+      0 0 12px oklch(0.74 0.16 230);
+    transform: scale(1.02) skewX(2deg);
+    opacity: 1;
+  }
+  6% {
+    text-shadow: none;
+    transform: scale(1) skewX(0deg);
+    opacity: 0.9;
+  }
+  8% {
+    text-shadow: 
+      -2px -1px 0px oklch(0.70 0.30 195), 
+      2px 1px 0px oklch(0.65 0.32 345), 
+      0 0 2px #ffffff, 
+      0 0 6px #ffffff;
+    transform: scale(1) skewX(0deg);
+    opacity: 1;
+  }
+  30%, 70% {
+    text-shadow: 
+      -2px -1px 0px oklch(0.70 0.30 195), 
+      2px 1px 0px oklch(0.65 0.32 345), 
+      0 0 2px #ffffff, 
+      0 0 6px #ffffff, 
+      0 0 16px oklch(0.74 0.16 230), 
+      0 0 35px oklch(0.74 0.16 230 / 0.7);
+    transform: scale(1) skewX(0deg);
+    opacity: 1;
+  }
+  72% {
+    text-shadow: 
+      -5px -1px 0px oklch(0.70 0.30 195), 
+      5px 1px 0px oklch(0.65 0.32 345);
+    transform: scale(1.03) skewX(5deg);
+    opacity: 0.7;
+  }
+  74% {
+    text-shadow: 
+      -2px -1px 0px oklch(0.70 0.30 195), 
+      2px 1px 0px oklch(0.65 0.32 345), 
+      0 0 2px #ffffff;
+    transform: scale(0.97) skewX(-2deg);
+    opacity: 0.95;
+  }
+  76% {
+    text-shadow: none;
+    transform: scale(1) skewX(0deg);
+    opacity: 1;
   }
 }
 
