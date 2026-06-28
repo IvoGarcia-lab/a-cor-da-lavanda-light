@@ -1,24 +1,19 @@
-// server.js
-// Startup wrapper for Hostinger Node.js Web App
+const { createServer } = require('http')
+const { parse } = require('url')
+const next = require('next')
 
-console.log("=== Node.js Web App Bootstrapping ===");
-console.log("Target PORT:", process.env.PORT);
-console.log("NODE_ENV:", process.env.NODE_ENV);
-console.log("Current Directory:", process.cwd());
+const dev = process.env.NODE_ENV !== 'production'
+const port = parseInt(process.env.PORT, 10) || 3000
 
-// Fix for Passenger Unix socket path parsing in Next.js standalone server
-if (process.env.PORT && isNaN(Number(process.env.PORT))) {
-  console.log("Detected Unix socket / named pipe. Applying parseInt patch...");
-  const originalParseInt = global.parseInt;
-  global.parseInt = function(value, radix) {
-    if (value === process.env.PORT) {
-      return value; // Return the string socket path directly to Next.js
-    }
-    return originalParseInt(value, radix);
-  };
-}
+const app = next({ dev })
+const handle = app.getRequestHandler()
 
-process.env.NODE_ENV = 'production';
-
-// Start the Next.js standalone server
-require('./.next/standalone/server.js');
+app.prepare().then(() => {
+  createServer((req, res) => {
+    const parsedUrl = parse(req.url, true)
+    handle(req, res, parsedUrl)
+  }).listen(port, (err) => {
+    if (err) throw err
+    console.log(`> Ready on port ${port}`)
+  })
+})
