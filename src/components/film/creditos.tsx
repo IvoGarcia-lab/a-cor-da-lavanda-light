@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export function Creditos() {
   const productionCredits = [
@@ -91,13 +90,11 @@ export function Creditos() {
           </span>
           
           {/* Logo IPCI */}
-          <div className="relative w-72 h-16 md:w-96 md:h-20 my-2">
-            <Image
+          <div className="relative w-72 h-16 md:w-96 md:h-20 my-2 flex items-center justify-center">
+            <img
               src="/film/logo-ipci.png"
               alt="IPCI - Instituto de Produção Cultural e Imagem"
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 288px, 384px"
+              className="w-full h-full object-contain"
             />
           </div>
 

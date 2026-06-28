@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 /* ── Equipment Data ─────────────────────────────────────────── */
 
@@ -236,12 +235,10 @@ export function Equipamento() {
               <div className="max-h-0 group-hover:max-h-[600px] overflow-hidden transition-all duration-[800ms] ease-in-out border-t border-border/0 group-hover:border-border/20">
                 {/* Image */}
                 <div className="relative w-full h-48 bg-black/30">
-                  <Image
+                  <img
                     src={item.image}
                     alt={item.name}
-                    fill
-                    className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
                   />
                 </div>
 
@@ -294,12 +291,10 @@ export function Equipamento() {
               transition={{ duration: 1, delay: 0.1 }}
               className="lg:col-span-7 relative aspect-[16/9] overflow-hidden film-frame"
             >
-              <Image
+              <img
                 src={POSTPRODUCTION.image}
                 alt={POSTPRODUCTION.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
