@@ -166,13 +166,22 @@ export function FilmNav() {
               );
             })}
           </div>
-          <button
-            onClick={() => setOpen(true)}
-            className="md:hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground"
-            aria-label="Abrir menu"
-          >
-            Menu
-          </button>
+          <div className="flex items-center gap-4 md:hidden">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("play-cinematic-video"))}
+              className="font-mono text-[10px] uppercase tracking-[0.25em] text-lavender hover:text-white transition-colors flex items-center gap-1.5 bg-lavender/10 border border-lavender/30 px-3 py-1 rounded-full shadow-[0_0_12px_rgba(158,128,214,0.2)] focus:outline-none"
+            >
+              <span>▶</span>
+              <span className="font-semibold">Filme</span>
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground focus:outline-none"
+              aria-label="Abrir menu"
+            >
+              Menu
+            </button>
+          </div>
         </div>
       </motion.nav>
 

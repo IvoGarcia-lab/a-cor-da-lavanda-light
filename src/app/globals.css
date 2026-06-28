@@ -340,9 +340,13 @@
   animation: blink 1.2s steps(1) infinite;
 }
 
-/* Aspect ratio for video */
 .aspect-film {
-  aspect-ratio: 2.39 / 1;
+  aspect-ratio: 16 / 9;
+}
+@media (min-width: 768px) {
+  .aspect-film {
+    aspect-ratio: 2.39 / 1;
+  }
 }
 
 /* ============================================

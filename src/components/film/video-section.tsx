@@ -279,14 +279,14 @@ export function VideoSection() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-24 h-24 rounded-full border border-lavender flex items-center justify-center text-lavender bg-black/60 hover:bg-lavender hover:text-background transition-all duration-500 shadow-[0_0_40px_rgba(158,128,214,0.5)] mb-6 focus:outline-none relative"
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full border border-lavender flex items-center justify-center text-lavender bg-black/60 hover:bg-lavender hover:text-background transition-all duration-500 shadow-[0_0_40px_rgba(158,128,214,0.5)] mb-4 md:mb-6 focus:outline-none relative"
                   aria-label="Reproduzir filme"
                 >
                   {/* Glowing pulsing outer ring */}
                   <span className="absolute inset-0 rounded-full border border-lavender/50 animate-ping opacity-75" />
-                  <span className="text-2xl ml-1 relative z-10">▶</span>
+                  <span className="text-xl md:text-2xl ml-1 relative z-10">▶</span>
                 </motion.button>
-                <span className="font-mono text-xs uppercase tracking-[0.4em] text-lavender text-glow-lavender font-semibold animate-pulse">
+                <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-lavender text-glow-lavender font-semibold animate-pulse">
                   Iniciar Projecção · 94s
                 </span>
               </motion.div>
