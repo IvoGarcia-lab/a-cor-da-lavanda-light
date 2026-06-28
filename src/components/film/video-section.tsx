@@ -126,6 +126,15 @@ export function VideoSection() {
     };
   }, []);
 
+  // Listen for external trigger events (e.g. from Hero or Navbar)
+  useEffect(() => {
+    const handleExternalPlay = () => {
+      handleCinematicPlay();
+    };
+    window.addEventListener("play-cinematic-video", handleExternalPlay);
+    return () => window.removeEventListener("play-cinematic-video", handleExternalPlay);
+  }, []);
+
   // Keyboard controls listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -270,13 +279,15 @@ export function VideoSection() {
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-20 h-20 rounded-full border-2 border-lavender flex items-center justify-center text-lavender bg-background/50 hover:bg-lavender hover:text-background transition-all duration-300 shadow-[0_0_30px_rgba(158,128,214,0.3)] mb-4 focus:outline-none"
+                  className="w-24 h-24 rounded-full border border-lavender flex items-center justify-center text-lavender bg-black/60 hover:bg-lavender hover:text-background transition-all duration-500 shadow-[0_0_40px_rgba(158,128,214,0.5)] mb-6 focus:outline-none relative"
                   aria-label="Reproduzir filme"
                 >
-                  <span className="text-xl ml-1">▶</span>
+                  {/* Glowing pulsing outer ring */}
+                  <span className="absolute inset-0 rounded-full border border-lavender/50 animate-ping opacity-75" />
+                  <span className="text-2xl ml-1 relative z-10">▶</span>
                 </motion.button>
-                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-lavender/80">
-                  Reproduzir · 94 segundos
+                <span className="font-mono text-xs uppercase tracking-[0.4em] text-lavender text-glow-lavender font-semibold animate-pulse">
+                  Iniciar Projecção · 94s
                 </span>
               </motion.div>
             )}

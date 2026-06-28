@@ -24,6 +24,10 @@ export function Hero() {
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -80]);
   const yRibbon = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const opacityRibbon = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const triggerPlay = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("play-cinematic-video"));
+  };
 
   return (
     <section
@@ -179,29 +183,26 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 1.4 }}
-            className="mt-12 md:mt-16 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+            className="mt-12 md:mt-16 flex flex-col sm:flex-row items-center gap-4 w-full"
           >
+            <button
+              onClick={triggerPlay}
+              className="group relative inline-flex items-center gap-3 px-8 py-3.5 bg-lavender text-background hover:bg-white hover:text-black transition-all duration-500 rounded-full font-semibold shadow-[0_0_30px_rgba(158,128,214,0.4)] focus:outline-none w-full sm:w-auto justify-center"
+            >
+              <span className="text-xs">▶</span>
+              <span className="font-mono text-xs uppercase tracking-[0.25em]">
+                Ver o Filme (94s)
+              </span>
+            </button>
             <a
               href="#manifesto"
-              className="group relative inline-flex items-center gap-3 px-6 py-3 border border-lavender/40 hover:border-lavender transition-all duration-500 overflow-hidden"
+              className="group relative inline-flex items-center gap-2 px-6 py-3 border border-white/20 hover:border-lavender transition-all duration-500 rounded-full w-full sm:w-auto justify-center"
             >
-              <span className="absolute inset-0 bg-lavender/0 group-hover:bg-lavender/10 transition-colors duration-500" />
-              <span className="font-mono text-xs uppercase tracking-[0.3em] relative z-10">
-                Descer ao abismo
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground">
+                Manifesto
               </span>
-              <span className="relative z-10 transition-transform duration-500 group-hover:translate-y-1">
+              <span className="transition-transform duration-500 group-hover:translate-y-1 text-muted-foreground group-hover:text-foreground">
                 ↓
-              </span>
-            </a>
-            <a
-              href="#video"
-              className="group inline-flex items-center gap-3 px-2 py-3 text-muted-foreground hover:text-lavender transition-colors duration-500"
-            >
-              <span className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                ▶
-              </span>
-              <span className="font-mono text-xs uppercase tracking-[0.3em]">
-                Ver o filme
               </span>
             </a>
           </motion.div>

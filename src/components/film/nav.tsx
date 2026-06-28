@@ -117,7 +117,8 @@ export function FilmNav() {
                   href={item.href}
                   onClick={(e) => {
                     if (item.href === "#video") {
-                      handleAnchorClick(e, "#video-player", 0, true);
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent("play-cinematic-video"));
                     } else {
                       handleAnchorClick(e, item.href, 160, false);
                     }
@@ -202,7 +203,8 @@ export function FilmNav() {
                   onClick={(e) => {
                     setOpen(false);
                     if (item.href === "#video") {
-                      handleAnchorClick(e, "#video-player", 0, true);
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent("play-cinematic-video"));
                     } else {
                       handleAnchorClick(e, item.href, 160, false);
                     }
@@ -237,6 +239,23 @@ export function FilmNav() {
               );
             })}
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Play Button for Mobile */}
+      <AnimatePresence>
+        {activeSection !== "#video" && (
+          <motion.button
+            key="floating-play-btn"
+            initial={{ opacity: 0, scale: 0.8, y: 50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 50 }}
+            onClick={() => window.dispatchEvent(new CustomEvent("play-cinematic-video"))}
+            className="md:hidden fixed bottom-6 right-6 z-45 flex items-center gap-2.5 px-5 py-3.5 bg-lavender text-background rounded-full font-semibold shadow-[0_0_25px_rgba(158,128,214,0.7)] border border-lavender/40 hover:bg-white transition-all active:scale-95 focus:outline-none"
+          >
+            <span className="text-xs">▶</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.15em] font-bold">Ver Filme</span>
+          </motion.button>
         )}
       </AnimatePresence>
     </>

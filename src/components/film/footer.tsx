@@ -127,6 +127,10 @@ export function FilmFooter() {
             </a>
             <a
               href="#video"
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent("play-cinematic-video"));
+              }}
               className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-lavender transition-colors"
             >
               Ver filme
